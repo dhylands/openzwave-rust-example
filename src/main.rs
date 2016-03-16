@@ -184,26 +184,21 @@ fn main() {
             break;
         }
 
-        let tokens:Vec<&str> = input.split_whitespace().collect();
+        let tokens: Vec<_> = input.split_whitespace().collect();
         if tokens.len() == 0 {
             continue;
         }
+
         match tokens[0] {
-            "args" => {
-                println!("args = {:?}", tokens);
-            }
-            "exit" => {
-                break;
-            }
-            "controllers" => {
+            "args"                  => println!("args = {:?}", tokens),
+            "exit" | "q" | "quit"   => break,
+            "controllers"           => {
                 let ref controllers = program.state.lock().unwrap().controllers;
                 for controller in controllers {
                     println!("{}", controller);
                 }
-            }
-            "controllers_dbg" => {
-                println!("{:?}\n", program.state.lock().unwrap().controllers);
-            }
+            },
+            "controllers_dbg"       => println!("{:?}\n", program.state.lock().unwrap().controllers),
             "nodes" => {
                 let mut program_state = program.state.lock().unwrap();
                 let ref mut nodes_map = program_state.nodes_map;
@@ -213,11 +208,9 @@ fn main() {
                         println!("  Node: {}", node);
                     }
                 }
-            }
-            "nodes_dbg" => {
-                println!("{:?}\n", program.state.lock().unwrap().nodes);
-            }
-            "values" => {
+            },
+            "nodes_dbg"             => println!("{:?}\n", program.state.lock().unwrap().nodes),
+            "values"                => {
                 let ref value_ids = program.state.lock().unwrap().value_ids;
                 for value_id in value_ids {
                     if value_id.get_genre() != ValueGenre::ValueGenre_User {
@@ -225,13 +218,9 @@ fn main() {
                     }
                     println!("{}", value_id);
                 }
-            }
-            "values_dbg" => {
-                println!("{:?}", program.state.lock().unwrap().value_ids);
-            }
-            _ => {
-                println!("Unrecognized command: '{}'", tokens[0]);
-            }
+            },
+            "values_dbg"            => println!("{:?}", program.state.lock().unwrap().value_ids),
+            _                       => println!("Unrecognized command: '{}'", tokens[0]),
         }
     }
     println!("Exiting...");
