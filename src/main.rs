@@ -184,7 +184,7 @@ fn main() {
             break;
         }
 
-        let tokens:Vec<&str> = input.split_whitespace().collect();
+        let tokens: Vec<_> = input.split_whitespace().collect();
         if tokens.len() == 0 {
             continue;
         }
